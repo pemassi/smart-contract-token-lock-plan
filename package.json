@@ -1,0 +1,19 @@
+{
+	"name": "token-lock-plan",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"init": "truffle init",
+		"build": "truffle build",
+		"migrate": "truffle migrate",
+		"develop": "truffle develop",
+		"test": "truffle test"
+	},
+	"author": "",
+	"license": "MST",
+	"dependencies": {
+		"@openzeppelin/contracts": "4.7.3",
+		"openzeppelin-solidity": "4.6.0"
+	}
+}
