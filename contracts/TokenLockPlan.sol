@@ -3,18 +3,19 @@ pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
 import "openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
 
-contract TokenLockPlan {
+contract TokenLockPlan is ReentrancyGuard {
 
     struct LockPlan {
         uint256 amount;
-        uint256 unlockTimestamp;
+        uint256 unlockAfterSecs;
     }
 
     // Flags
     bool public isLocked;
-    bool internal reentrancyFlag;   // boolean to prevent reentrancy
 
     // Library usage
     using SafeERC20 for IERC20;
@@ -23,15 +24,14 @@ contract TokenLockPlan {
     // Contract owner
     address payable public owner;
 
-    // Timestamp related variables
-    uint256 public initialTimestamp;    // The time locking started
-    bool public timestampSet;
-
     // Token amount variables
     mapping(address => LockPlan[]) public lockPlans;
+    mapping(address => uint256) public lockPlanLengths;
     mapping(address => uint256) public balances;
     mapping(address => uint256) public alreadyWithdrawn;
-    uint256 public contractBalance;
+    uint256 public totalBalance;
+    uint256 public contractEthBalance;
+    uint256 public lockStartTimestamp;
 
     // ERC20 contract address
     IERC20 public erc20Contract;
@@ -50,66 +50,28 @@ contract TokenLockPlan {
         // Set contract owner
         owner = payable(msg.sender);
 
-        // Timestamp values not set yet
-        timestampSet = false;
-
         // Set the erc20 contract address which this timelock is deliberately paired to
         require(address(_erc20_contract_address) != address(0), "_erc20_contract_address address can not be zero");
         erc20Contract = _erc20_contract_address;
-
-        // Initialize the reentrancy variable to not locked
-        reentrancyFlag = false;
     }
 
-    // Modifier
-    /**
-     * @dev Prevents reentrancy
-     */
-    modifier noReentrant() {
-        require(!reentrancyFlag, "No re-entrancy");
-        reentrancyFlag = true;
+    modifier locked() {
+        require(isLocked == true, "Plan is not locked yet.");
         _;
-        reentrancyFlag = false;
     }
 
-    // Modifier
-    /**
-     * @dev Throws if allIncomingDepositsFinalised is true.
-     */
     modifier notLocked() {
-        require(isLocked == false, "Incoming deposits have been finalised.");
+        require(isLocked == false, "Plan is locked.");
         _;
     }
 
-    // Modifier
-    /**
-     * @dev Throws if called by any account other than the owner.
-     */
     modifier onlyOwner() {
         require(msg.sender == owner, "Message sender must be the contract's owner.");
         _;
     }
 
-    // Modifier
-    /**
-     * @dev Throws if timestamp already set.
-     */
-    modifier timestampNotSet() {
-        require(timestampSet == false, "The time stamp has already been set.");
-        _;
-    }
-
-    // Modifier
-    /**
-     * @dev Throws if timestamp not set.
-     */
-    modifier timestampIsSet() {
-        require(timestampSet == true, "Please set the time stamp first, then try again.");
-        _;
-    }
-
     receive() payable external notLocked {
-        contractBalance = contractBalance.add(msg.value);
+        contractEthBalance = contractEthBalance.add(msg.value);
         emit TokensDeposited(msg.sender, msg.value);
     }
 
@@ -118,35 +80,27 @@ contract TokenLockPlan {
     /// Calling this function can not be undone. 
     /// Calling this function must only be performed when all of the addresses and amounts are allocated (to the recipients). 
     /// This function finalizes the contract owners involvement and at this point the contract's timelock functionality is non-custodial
-    function finalizeAllIncomingDeposits() public onlyOwner timestampIsSet notLocked {
+    function lockup() public onlyOwner notLocked {
         // Check contract balance is equal to all locked token amount.
-        revert("TODO");
+        require(erc20Contract.balanceOf(address(this)) >= totalBalance, "Depoisted contract balance is less than total locking amount.");
 
-        // Record locking start time
-        initialTimestamp = block.timestamp;
+        // Record Lock Start Time
+        lockStartTimestamp = block.timestamp;
 
         // Make owner cannot access anymore
         isLocked = true;
     }
 
-    /// @dev Function to withdraw Eth in case Eth is accidently sent to this contract.
-    /// @param amount of network tokens to withdraw (in wei).
-    function withdrawEth(uint256 amount) public onlyOwner noReentrant{
-        require(amount <= contractBalance, "Insufficient funds");
-        contractBalance = contractBalance.sub(amount);
-
-        // Transfer the specified amount of Eth to the owner of this contract
-        owner.transfer(amount);
-    }
-
-    /// @dev Allows the contract owner to allocate official ERC20 tokens to each future recipient (only one at a time).
+    /// @dev 
     /// @param recipient, address of recipient.
     /// @param unlockTimestamps, timestamp when token is unlocked
     /// @param amounts, amount of locking token
-    function addLockPlan(address recipient, uint256[] calldata unlockTimestamps, uint256[] calldata amounts) public onlyOwner notLocked {
+    function setLockPlan(address recipient, uint256[] calldata unlockTimestamps, uint256[] calldata amounts) public onlyOwner notLocked {
         require(recipient != address(0), "ERC20: transfer to the zero address.");
-        require(unlockTimestamps.length == amounts.length, "The unlockTimestamps and amounts must be the same size.");
+        require(unlockTimestamps.length == amounts.length, "The unlockTimestamps and amounts must be the same length.");
         
+        delete lockPlans[recipient];
+
         for(uint256 i = 0; i < unlockTimestamps.length; i++)
         {
             uint256 unlockTimestamp = unlockTimestamps[i];
@@ -158,69 +112,98 @@ contract TokenLockPlan {
                     unlockTimestamp
                 )
             );
-
+            lockPlanLengths[recipient] = lockPlanLengths[recipient].add(1);
             balances[recipient] = balances[recipient].add(amount);
+            totalBalance = totalBalance.add(amount);
 
             emit AllocationPerformed(recipient, amount);
         }
     }
 
-    /// @dev Allows the contract owner to allocate official ERC20 tokens to multiple future recipient in bulk.
+    /// @dev 
     /// @param recipients, an array of addresses of the many recipient.
-    /// @param amounts to allocate to each of the many recipient.
-    function bulkAddLockPlan(address[] calldata recipients, uint256[] calldata amounts) external onlyOwner notLocked {
-        revert("Do not support now.");
+    /// @param unlockTimestampss, timestamp when token is unlocked
+    /// @param amountss to allocate to each of the many recipient.
+    function bulkSetLockPlan(address[] calldata recipients, uint256[][] calldata unlockTimestampss, uint256[][] calldata amountss) external onlyOwner notLocked {
+        require(recipients.length == unlockTimestampss.length && unlockTimestampss.length == amountss.length, "The recipients, unlockTimestampss and amountss must be the same length.");
+        
+        for(uint256 i = 0; i < recipients.length; i++)
+        {
+            setLockPlan(recipients[i], unlockTimestampss[i], amountss[i]);
+        }
     }
 
-    function checkUnlockedTokenAmount(address recipient) public timestampIsSet noReentrant returns (uint256) {
-        // Calculate unlocked token amount
-        uint256 unlockedAmount = 0;
+    function checkUnlockedTokenBalance(address recipient) public locked view returns (uint256) {
+        // Calculate unlocked token balance
+        uint256 unlockedBalance = 0;
         for(uint256 i = 0; i < lockPlans[recipient].length; i++)
         {
             uint256 amount = lockPlans[recipient][i].amount;
-            uint256 unlockTimestamp = lockPlans[recipient][i].unlockTimestamp;
+            uint256 unlockAfterSecs = lockPlans[recipient][i].unlockAfterSecs;
 
-            if(block.timestamp >= unlockTimestamp)
+            if(block.timestamp >= lockStartTimestamp + unlockAfterSecs)
             {
-                unlockedAmount = unlockedAmount.add(amount);
+                unlockedBalance = unlockedBalance.add(amount);
             }
         }
 
-        return unlockedAmount;
+        return unlockedBalance;
     }
 
     /// @dev Allows recipient to unlock tokens after 24 month period has elapsed
     /// @param recipient - the recipient's account address.
     /// @param withdrawAmount - the amount to unlock (in wei)
-    function withdrawUnlockedToken(address recipient, uint256 withdrawAmount) public timestampIsSet noReentrant {
+    function withdrawUnlockedToken(address recipient, uint256 withdrawAmount) public nonReentrant locked {
         // Validate
         require(recipient != address(0), "ERC20: transfer to the zero address");
-        require(balances[recipient] >= withdrawAmount, "Insufficient token balance, try lesser amount");
+        //require(erc20Contract.balanceOf(address(this)) >= withdrawAmount, "Insufficient token balance (contract), try lesser amount");
+        require(balances[recipient] >= withdrawAmount, "Insufficient token balance (user), try lesser amount");
         require(msg.sender == recipient, "Only the token recipient can perform the unlock");
 
-        // Calculate unlocked token amount
-        uint256 unlockedAmount = checkUnlockedTokenAmount(recipient);
+        // Calculate unlocked token balance
+        uint256 unlockedBalance = checkUnlockedTokenBalance(recipient);
         
         // Validate
-        uint256 withdrawableAmount = unlockedAmount.sub(alreadyWithdrawn[recipient]);
+        uint256 withdrawableAmount = unlockedBalance.sub(alreadyWithdrawn[recipient]);
         require(withdrawableAmount >= withdrawAmount, "Some tokens are still locked, try lesser amount.");
 
         // Transfer
-        contractBalance = contractBalance.sub(withdrawAmount);
         alreadyWithdrawn[recipient] = alreadyWithdrawn[recipient].add(withdrawAmount);
         balances[recipient] = balances[recipient].sub(withdrawAmount);
-        erc20Contract.safeTransfer(recipient, withdrawAmount);
+        totalBalance = totalBalance.sub(withdrawAmount);
         emit TokensUnlocked(recipient, withdrawAmount);
+
+        erc20Contract.safeTransfer(recipient, withdrawAmount);
     }
 
-    /// @dev Transfer accidentally locked ERC20 tokens.
+    function depositedTokenBalance() public view returns (uint256) {
+        return erc20Contract.balanceOf(address(this));
+    }
+
+    /// @dev Transfer accidentally deposited tokens before lockup.
+    /// @param amount of ERC20 tokens to remove.
+    function transferAccidentallyDepositedTokens(uint256 amount) public onlyOwner nonReentrant notLocked {
+        erc20Contract.safeTransfer(owner, amount);
+    }
+
+    /// @dev Transfer accidentally deposited ERC20 tokens.
     /// @param token - ERC20 token address.
     /// @param amount of ERC20 tokens to remove.
-    function transferAccidentallyLockedTokens(IERC20 token, uint256 amount) public onlyOwner noReentrant {
+    function transferAccidentallyDepositedOtherTokens(IERC20 token, uint256 amount) public onlyOwner nonReentrant {
         // Validate
         require(address(token) != address(0), "Token address can not be zero.");
         require(token != erc20Contract, "Only token which is not locked by this contract can be transfered.");
         
         token.safeTransfer(owner, amount);
+    }
+
+    /// @dev Transfer Eth in case Eth is accidently sent to this contract.
+    /// @param amount of network tokens to withdraw (in wei).
+    function transferAccidentallyDepositedEth(uint256 amount) public onlyOwner nonReentrant{
+        require(amount <= contractEthBalance, "Insufficient funds");
+        contractEthBalance = contractEthBalance.sub(amount);
+
+        // Transfer the specified amount of Eth to the owner of this contract
+        owner.transfer(amount);
     }
 }
