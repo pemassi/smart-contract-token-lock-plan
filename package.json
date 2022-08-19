@@ -16,9 +16,11 @@
 		"@openzeppelin/contracts": "4.7.3",
 		"@openzeppelin/test-helpers": "^0.5.15",
 		"@truffle/hdwallet-provider": "^2.0.14",
-		"openzeppelin-solidity": "4.6.0"
+		"openzeppelin-solidity": "4.6.0",
+		"truffle": "^5.5.27"
 	},
 	"devDependencies": {
+		"solidity-coverage": "^0.7.21",
 		"truffle-plugin-verify": "^0.5.28"
 	}
 }

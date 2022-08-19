@@ -24,7 +24,7 @@ const fs = require('fs');
 const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
-  plugins: ['truffle-plugin-verify'],
+  plugins: ['truffle-plugin-verify', "solidity-coverage"],
   
   networks: {
     development: {
