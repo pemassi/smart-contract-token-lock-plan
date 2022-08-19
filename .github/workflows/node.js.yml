@@ -30,14 +30,14 @@ jobs:
       run: npm install ganache
     - name: Start ganache
       run: |
-        ./node_modules/ganache-cli/cli.js -p 7545 --gasLimit=0x1fffffffffffff --allowUnlimitedContractSize -e 1000000000 > /dev/null &
+        ganache -p 7545 --gasLimit=0x1fffffffffffff --allowUnlimitedContractSize -e 1000000000 > /dev/null &
         while netstat -lnt | awk '$4 ~ /:7545$/ {exit 1}'; do sleep 5; done 
     - name: Install npm packages
       run: npm ci
     - name: Build Contracts
-      run: ./node_modules/truffle/build/cli.bundled.js build --network development
+      run: npm run build --network development
     - name: Test Contracts
-      run: ./node_modules/truffle/build/cli.bundled.js test --network development
+      run: npm run test --network development
     - name: Stop ganache
       run: kill $(lsof -t -i:7545)
       
