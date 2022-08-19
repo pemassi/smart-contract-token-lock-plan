@@ -26,8 +26,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Install Ganche
-      run: npm install ganche
+    - name: Install Ganache
+      run: npm install ganache
     - name: Start ganache
       run: |
         ./node_modules/ganache-cli/cli.js -p 7545 --gasLimit=0x1fffffffffffff --allowUnlimitedContractSize -e 1000000000 > /dev/null &
