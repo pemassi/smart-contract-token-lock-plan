@@ -38,8 +38,7 @@ jobs:
       run: ganache --version
     - name: Start ganache
       run: |
-        ganache -p 7545 --gasLimit=0x1fffffffffffff --allowUnlimitedContractSize -e 1000000000 > /dev/null &
-        while netstat -lnt | awk '$4 ~ /:7545$/ {exit 1}'; do sleep 5; done 
+        ganache -p 7545 --gasLimit=0x1fffffffffffff --allowUnlimitedContractSize -e 1000000000 > /dev/null
     - name: Install Dependencies
       run: npm install      
     - name: Run Truffle Test with CI=true for Codechecks  
