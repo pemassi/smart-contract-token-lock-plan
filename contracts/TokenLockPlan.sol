@@ -14,6 +14,16 @@ contract TokenLockPlan is ReentrancyGuard {
         uint256 unlockAfterSecs;
     }
 
+    /// @dev Define Privacy Level
+    /// HIGH - All information is closed, also the recipient of plan can only touch their tokens. (WIP)
+    /// MID - All information is opened, but the owner of contract cannot touch other users' token.
+    /// LOW - All information is opened, also the owner of contract can touch other users' token.
+    enum PrivacyLevel {
+        LOW,
+        MID,
+        HIGH
+    }
+
     // Flags
     bool public isLocked;
 
@@ -23,6 +33,9 @@ contract TokenLockPlan is ReentrancyGuard {
 
     // Contract owner
     address payable public owner;
+
+    // Contract privacy level
+    PrivacyLevel public privacyLevel;
 
     // Lock Plan
     mapping(address => LockPlan[]) public lockPlans;
@@ -47,12 +60,15 @@ contract TokenLockPlan is ReentrancyGuard {
 
     /// @dev Deploys contract and links the ERC20 token which we are locking.
     /// @param _erc20_contract_address, the ERC20 token address that we are locking
-    constructor(IERC20 _erc20_contract_address) {
+    constructor(IERC20 _erc20_contract_address, PrivacyLevel _privacyLevel) {
         // Allow this contract's owner to make deposits by setting allIncomingDepositsFinalised to false
         isLocked = false;
 
         // Set contract owner
         owner = payable(msg.sender);
+
+        // Set privacy level
+        privacyLevel = _privacyLevel;
 
         // Set the erc20 contract address which this timelock is deliberately paired to
         require(address(_erc20_contract_address) != address(0), "_erc20_contract_address address can not be zero");
@@ -74,6 +90,16 @@ contract TokenLockPlan is ReentrancyGuard {
     /// @dev only owner can call
     modifier onlyOwner() {
         require(msg.sender == owner, "Message sender must be the contract's owner.");
+        _;
+    }
+
+    modifier privacyLevelLowerHigh() {
+        require(privacyLevel != PrivacyLevel.HIGH, "Cannot access because of privacy level (HGIH).");
+        _;
+    }
+
+    modifier privacyLevelLowerMid() {
+        require(privacyLevel != PrivacyLevel.HIGH && privacyLevel != PrivacyLevel.MID, "Cannot access because of privacy level (MID).");
         _;
     }
 
@@ -145,9 +171,20 @@ contract TokenLockPlan is ReentrancyGuard {
         }
     }
 
+    /// @dev Check how many tokens has been unlocked for me.
+    function checkMyUnlockedTokenBalance() public view returns (uint256) {
+        return checkUnlockedTokenBalance(msg.sender);
+    }
+
     /// @dev Check how many tokens has been unlocked for recipient.
     /// @param recipient, the address of recipient
-    function checkUnlockedTokenBalance(address recipient) public locked view returns (uint256) {
+    function checkUserUnlockedTokenBalance(address recipient) public privacyLevelLowerMid onlyOwner view returns (uint256) {
+        return checkUnlockedTokenBalance(recipient);
+    }
+
+    /// @dev Check how many tokens has been unlocked for recipient.
+    /// @param recipient, the address of recipient
+    function checkUnlockedTokenBalance(address recipient) private locked view returns (uint256) {
         // Calculate unlocked token balance
         uint256 unlockedBalance = 0;
         for(uint256 i = 0; i < lockPlans[recipient].length; i++)
@@ -164,15 +201,27 @@ contract TokenLockPlan is ReentrancyGuard {
         return unlockedBalance;
     }
 
-    /// @dev Withdraw unlocked token of recipient
+    /// @dev Withdraw my unlocked token
+    /// @param withdrawAmount, the amount of withdrawing token (in wei)
+    function withdrawMyUnlockedToken(uint256 withdrawAmount) public {
+        withdrawUnlockedToken(msg.sender, withdrawAmount);
+    }
+
+    /// @dev Withdraw user unlocked token
     /// @param recipient, the address of recipient
     /// @param withdrawAmount, the amount of withdrawing token (in wei)
-    function withdrawUnlockedToken(address recipient, uint256 withdrawAmount) public nonReentrant locked {
+    function withdrawUserUnlockedToken(address recipient, uint256 withdrawAmount) public privacyLevelLowerMid onlyOwner {
+        withdrawUnlockedToken(recipient, withdrawAmount);
+    }
+
+    /// @dev Withdraw unlocked token of sender
+    /// @param recipient, the address of recipient
+    /// @param withdrawAmount, the amount of withdrawing token (in wei)
+    function withdrawUnlockedToken(address recipient, uint256 withdrawAmount) private nonReentrant locked {
         // Validate
         require(recipient != address(0), "ERC20: transfer to the zero address");
         require(erc20Contract.balanceOf(address(this)) >= withdrawAmount, "Insufficient contract's token balance, try lesser amount");
         require(balances[recipient] >= withdrawAmount, "Insufficient recipient's token balance, try lesser amount");
-        require(msg.sender == recipient, "Only the token recipient can perform the unlock");
 
         // Calculate unlocked token balance
         uint256 unlockedBalance = checkUnlockedTokenBalance(recipient);
@@ -196,13 +245,13 @@ contract TokenLockPlan is ReentrancyGuard {
 
     /// @dev Transfer deposited tokens before lockup to onwer.
     /// @param amount, amount of ERC20 tokens to remove.
-    function transferDepositedTokens(uint256 amount) public onlyOwner nonReentrant notLocked {
+    function transferDepositedTokensToOnwer(uint256 amount) public onlyOwner nonReentrant notLocked {
         erc20Contract.safeTransfer(owner, amount);
     }
 
     /// @dev Transfer accidentally deposited tokens before lockup to onwer.
     /// @param amount, amount of ERC20 tokens to remove.
-    function transferAccidentallyDepositedTokens(uint256 amount) public onlyOwner nonReentrant locked {
+    function transferAccidentallyDepositedTokensToOnwer(uint256 amount) public onlyOwner nonReentrant locked {
         require(erc20Contract.balanceOf(address(this)) > totalBalance, "There is no more accidentally deposited tokens.");
         require(erc20Contract.balanceOf(address(this)).sub(totalBalance) < amount, "The amount that try to transfer is bigger than accidentally deposited amount.");
 
@@ -212,7 +261,7 @@ contract TokenLockPlan is ReentrancyGuard {
     /// @dev Transfer accidentally deposited other ERC20 tokens to onwer.
     /// @param token, other ERC20 token contract address.
     /// @param amount, amount of ERC20 tokens to remove.
-    function transferAccidentallyDepositedOtherTokens(IERC20 token, uint256 amount) public onlyOwner nonReentrant {
+    function transferAccidentallyDepositedOtherTokensToOnwer(IERC20 token, uint256 amount) public onlyOwner nonReentrant {
         // Validate
         require(address(token) != address(0), "Token address can not be zero.");
         require(token != erc20Contract, "Only token which is not locked by this contract can be transfered.");
@@ -222,7 +271,7 @@ contract TokenLockPlan is ReentrancyGuard {
 
     /// @dev Transfer accidently deposited ETH to onwer.
     /// @param amount, of network tokens to withdraw (in wei).
-    function transferAccidentallyDepositedEth(uint256 amount) public onlyOwner nonReentrant{
+    function transferAccidentallyDepositedEthToOnwer(uint256 amount) public onlyOwner nonReentrant{
         require(amount <= contractEthBalance, "Insufficient funds");
         contractEthBalance = contractEthBalance.sub(amount);
 
