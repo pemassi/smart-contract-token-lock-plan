@@ -30,8 +30,12 @@ jobs:
       run: npm --version
     - name: Install Truffle
       run: npm install truffle -g
+    - name: Show Truffle version    
+      run: truffle version
     - name: Install Ganache
       run: npm install ganache -g
+    - name: Show Ganache version    
+      run: ganache --version
     - name: Start ganache
       run: |
         ganache -p 7545 --gasLimit=0x1fffffffffffff --allowUnlimitedContractSize -e 1000000000 > /dev/null &
