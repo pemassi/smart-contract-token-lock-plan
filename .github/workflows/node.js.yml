@@ -38,7 +38,7 @@ jobs:
       run: ganache --version
     - name: Start ganache
       run: |
-        ganache -p 7545 > /dev/null
+        ganache -p 7545 > /dev/null &
     - name: Install Dependencies
       run: npm install      
     - name: Run Truffle Test with CI=true for Codechecks  
