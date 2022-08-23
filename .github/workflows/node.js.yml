@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  CACHED_DEPENDENCY_PATHS: ${{ github.workspace }}/node_modules
+  CACHED_BUILD_PATHS: ${{ github.workspace }}/.next
+  BUILD_CACHE_KEY: ${{ github.sha }}
+
 jobs:
   build:
 
@@ -53,10 +58,6 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Generate .coveralls.yml file
-      run: echo "${{ secrets.DOT_COVERALLS_YML }}" > .coveralls.yml
-    - name: Send Coverage Info to CoverAlls
-      run: cat coverage/lcov.info | npx coveralls
     # - name: Clone SmartBugs Repo
     #   run: git clone https://github.com/smartbugs/smartbugs.git
     # - name: Remove SmartBugs Results and Install SmartBugs Dependencies
