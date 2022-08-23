@@ -1,8 +1,0 @@
-{
-  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
-  "tool": "smartcheck",
-  "start": 1661242992.3891838,
-  "end": 1661242995.0713856,
-  "duration": 2.682201862335205,
-  "exit_code": 0
-}

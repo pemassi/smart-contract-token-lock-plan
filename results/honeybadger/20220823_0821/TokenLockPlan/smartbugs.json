@@ -1,8 +1,0 @@
-{
-  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
-  "tool": "honeybadger",
-  "start": 1661242975.9937248,
-  "end": 1661242976.8312926,
-  "duration": 0.8375678062438965,
-  "exit_code": 0
-}

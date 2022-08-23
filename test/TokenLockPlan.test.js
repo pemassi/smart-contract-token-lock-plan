@@ -39,19 +39,19 @@ contract("TokenLockPlan", (accounts) => {
     it("Throw when unlockTimestamps and amounts sizes are not equal", async () => {
       await expectRevert(
         planInstance.setLockPlan(user1, [1], []),
-        "The unlockAfterSecs and lockAmounts must be the same length."
+        "unlockAfterSecs and lockAmounts must be the same length"
       )
 
       await expectRevert(
         planInstance.setLockPlan(user1, [], [1]),
-        "The unlockAfterSecs and lockAmounts must be the same length."
+        "unlockAfterSecs and lockAmounts must be the same length"
       )
     });
 
     it("Throw when called by not owner", async () => {
       await expectRevert(
         planInstance.setLockPlan(user1, [1], [1], {from: user1}),
-        "Message sender must be the contract's owner."
+        "Only onwer can call"
       )
     });
 
@@ -90,24 +90,24 @@ contract("TokenLockPlan", (accounts) => {
     it("Throw when recipients, unlockTimestampss and amountss sizes are not equal", async () => {
       await expectRevert(
         planInstance.bulkSetLockPlan([user1], [[1]], []),
-        "The recipients, unlockAfterSecss and lockAmountss must be the same length."
+        "recipients, unlockAfterSecss and lockAmountss must be the same length"
       )
 
       await expectRevert(
         planInstance.bulkSetLockPlan([user1], [], [[1]]),
-        "The recipients, unlockAfterSecss and lockAmountss must be the same length."
+        "recipients, unlockAfterSecss and lockAmountss must be the same length"
       )
 
       await expectRevert(
         planInstance.bulkSetLockPlan([], [[1]], [[1]]),
-        "The recipients, unlockAfterSecss and lockAmountss must be the same length."
+        "recipients, unlockAfterSecss and lockAmountss must be the same length"
       )
     });
 
     it("Throw when called by not owner", async () => {
       await expectRevert(
         planInstance.bulkSetLockPlan([user1], [[1]], [[1]], {from: user1}),
-        "Message sender must be the contract's owner."
+        "Only onwer can call"
       )
     });
 
@@ -181,18 +181,18 @@ contract("TokenLockPlan", (accounts) => {
   describe("Test Method: withdrawMyUnlockedToken", () => {
 
     it("Throw when plan is not locked", async () => {
-      await expectRevert(planInstance.withdrawMyUnlockedToken(0), "Plan is not locked yet.");
+      await expectRevert(planInstance.withdrawMyUnlockedToken(0), "Plan is unlocked");
     })
 
     it("Throw when contract balance is insufficient", async () => {
       await planInstance.lockup();
-      await expectRevert(planInstance.withdrawMyUnlockedToken(10), "Insufficient contract's token balance, try lesser amount");
+      await expectRevert(planInstance.withdrawMyUnlockedToken(10), "Insufficient contract balance");
     })
 
     it("Throw when recipient balance is insufficient", async () => {
       await planInstance.lockup();
       await tokenInstance.transfer(planInstance.address, 10);
-      await expectRevert(planInstance.withdrawMyUnlockedToken(10), "Insufficient recipient's token balance, try lesser amount");
+      await expectRevert(planInstance.withdrawMyUnlockedToken(10), "Insufficient recipient balance");
     })
 
     it("Throw when tokens are still locked", async () => {
@@ -208,7 +208,7 @@ contract("TokenLockPlan", (accounts) => {
       // Withdraw
       await expectRevert(
         planInstance.withdrawMyUnlockedToken(10, txUser1),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       )
       assert.equal((await tokenInstance.balanceOf(user1)).toNumber(), 0);
       assert.equal((await planInstance.balances(user1)).toNumber(), 10);
@@ -272,7 +272,7 @@ contract("TokenLockPlan", (accounts) => {
       // Withdraw - Over amount
       await expectRevert(
         planInstance.withdrawMyUnlockedToken(20, txUser1),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       )
       assert.equal((await tokenInstance.balanceOf(user1)).toNumber(), 0);
       assert.equal((await planInstance.balances(user1)).toNumber(), 30);
@@ -300,7 +300,7 @@ contract("TokenLockPlan", (accounts) => {
       // Before Unlock Time
       await expectRevert(
         planInstance.withdrawMyUnlockedToken(10, txUser1),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       );
       assert.equal((await tokenInstance.balanceOf(user1)).toNumber(), 0);
       assert.equal((await planInstance.balances(user1)).toNumber(), 20);
@@ -366,7 +366,7 @@ contract("TokenLockPlan", (accounts) => {
       // Before Unlock Time
       await expectRevert(
         planInstance.withdrawMyUnlockedToken(40, txUser2),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       );
       assert.equal((await tokenInstance.balanceOf(user2)).toNumber(), 30);
       assert.equal((await planInstance.balances(user2)).toNumber(), 40);
@@ -388,22 +388,22 @@ contract("TokenLockPlan", (accounts) => {
   describe("Test Method: withdrawUserUnlockedToken", () => {
 
     it("Throw when sender is not owner", async () => {
-      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 0, txUser1), "Message sender must be the contract's owner.");
+      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 0, txUser1), "Only onwer can call");
     });
 
     it("Throw when plan is not locked", async () => {
-      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 0), "Plan is not locked yet.");
+      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 0), "Plan is unlocked");
     });
 
     it("Throw when contract balance is insufficient", async () => {
       await planInstance.lockup();
-      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 10), "Insufficient contract's token balance, try lesser amount");
+      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 10), "Insufficient contract balance");
     })
 
     it("Throw when recipient balance is insufficient", async () => {
       await planInstance.lockup();
       await tokenInstance.transfer(planInstance.address, 10);
-      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 10), "Insufficient recipient's token balance, try lesser amount");
+      await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 10), "Insufficient recipient balance");
     })
 
     it("Throw when tokens are still locked", async () => {
@@ -419,7 +419,7 @@ contract("TokenLockPlan", (accounts) => {
       // Withdraw
       await expectRevert(
         planInstance.withdrawUserUnlockedToken(user1, 10),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       )
       assert.equal((await tokenInstance.balanceOf(user1)).toNumber(), 0);
       assert.equal((await planInstance.balances(user1)).toNumber(), 10);
@@ -483,7 +483,7 @@ contract("TokenLockPlan", (accounts) => {
       // Withdraw - Over amount
       await expectRevert(
         planInstance.withdrawUserUnlockedToken(user1, 20),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       )
       assert.equal((await tokenInstance.balanceOf(user1)).toNumber(), 0);
       assert.equal((await planInstance.balances(user1)).toNumber(), 30);
@@ -511,7 +511,7 @@ contract("TokenLockPlan", (accounts) => {
       // Before Unlock Time
       await expectRevert(
         planInstance.withdrawUserUnlockedToken(user1, 10),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       );
       assert.equal((await tokenInstance.balanceOf(user1)).toNumber(), 0);
       assert.equal((await planInstance.balances(user1)).toNumber(), 20);
@@ -577,7 +577,7 @@ contract("TokenLockPlan", (accounts) => {
       // Before Unlock Time
       await expectRevert(
         planInstance.withdrawUserUnlockedToken(user2, 40),
-        "Some tokens are still locked, try lesser amount."
+        "Amount excceed unlocked balance"
       );
       assert.equal((await tokenInstance.balanceOf(user2)).toNumber(), 30);
       assert.equal((await planInstance.balances(user2)).toNumber(), 40);

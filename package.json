@@ -18,7 +18,8 @@
 		"@openzeppelin/test-helpers": "^0.5.15",
 		"@truffle/hdwallet-provider": "^2.0.14",
 		"openzeppelin-solidity": "4.6.0",
-		"truffle": "^5.5.27"
+		"truffle": "^5.5.27",
+		"truffle-contract-size": "^2.0.1"
 	},
 	"devDependencies": {
 		"@codechecks/client": "^0.1.12",

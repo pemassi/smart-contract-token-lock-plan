@@ -1,8 +1,0 @@
-{
-  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
-  "tool": "oyente",
-  "start": 1661242998.3626285,
-  "end": 1661242999.2970977,
-  "duration": 0.9344692230224609,
-  "exit_code": 1
-}

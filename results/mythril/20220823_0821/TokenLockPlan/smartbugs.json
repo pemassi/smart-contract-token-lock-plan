@@ -1,8 +1,0 @@
-{
-  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
-  "tool": "mythril",
-  "start": 1661242973.673199,
-  "end": 1661242975.1179545,
-  "duration": 1.4447555541992188,
-  "exit_code": 0
-}

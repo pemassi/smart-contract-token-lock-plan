@@ -28,56 +28,63 @@ jobs:
         cache: 'npm'
     - name: Show NodeJS version    
       run: npm --version
-    - name: Install Truffle
-      run: npm install truffle -g
+     - name: Install Dependencies
+      run: npm install
+    # - name: Install Truffle
+    #   run: npm install truffle -g
     - name: Show Truffle version    
-      run: truffle version
-    - name: Install Ganache
-      run: npm install ganache -g
+      run: npx truffle version
+    # - name: Install Ganache
+    #   run: npm install ganache -g
     - name: Show Ganache version    
-      run: ganache --version
+      run: npx ganache --version
     - name: Start ganache
       run: |
-        ganache -p 7545 > /dev/null &
-    - name: Install Dependencies
-      run: npm install      
+        npx ganache -p 7545 > /dev/null &
     - name: Run Truffle Test with CI=true for Codechecks  
-      run: CI=true truffle test
-    # - name: Run Codechecks
-    #   run: npx codechecks
-    #   env:
-    #     CC_SECRET: ${{ secrets.CC_SECRET }} 
+      run: CI=true npx truffle test
+    - name: Run Codechecks
+      run: npx codechecks
+      env:
+        CC_SECRET: ${{ secrets.CC_SECRET }} 
     - name: Run Test Coverage
-      run: truffle run coverage
-    # - name: Generate .coveralls.yml file
-    #   run: echo "${{ secrets.DOT_COVERALLS_YML }}" > .coveralls.yml
-    # - name: Send Coverage Info to CoverAlls
-    #   run: cat coverage/lcov.info | npx coveralls
-    - name: Clone SmartBugs Repo
-      run: git clone https://github.com/smartbugs/smartbugs.git
-    - name: Remove SmartBugs Results and Install SmartBugs Dependencies
-      run: cd smartbugs;rm -r results;pip install -r requirements.txt
-    - name: Run SmartBugs Analysis
-      run: |
-        solidityFiles=($(ls -I Migrations.sol contracts))
-        DIR=$(pwd);cd smartbugs
-        for sol in "${solidityFiles[@]}"
-        do
-            echo "Analysing $sol..."
-            python smartBugs.py --tool all --file $DIR/contracts/$sol
-        done
-    - name: Move SmartBugs Results to Parent Directory
-      run: |
-        [[ -d results ]] && rm -r results
-        cd smartbugs
-        mv results ../
-    - name: Commit SmartBugs Results
-      uses: EndBug/add-and-commit@v7
+      run: npx truffle run coverage
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
       with:
-        author_name: github-actions
-        author_email: action@github.com
-        message: 'chore: added smartbugs results'
-        add: 'results'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate .coveralls.yml file
+      run: echo "${{ secrets.DOT_COVERALLS_YML }}" > .coveralls.yml
+    - name: Send Coverage Info to CoverAlls
+      run: cat coverage/lcov.info | npx coveralls
+    # - name: Clone SmartBugs Repo
+    #   run: git clone https://github.com/smartbugs/smartbugs.git
+    # - name: Remove SmartBugs Results and Install SmartBugs Dependencies
+    #   run: | 
+    #     cd smartbugs
+    #     rm -r results
+    #     pip install -r requirements.txt
+    # - name: Run SmartBugs Analysis
+    #   run: |
+    #     solidityFiles=($(ls -I Migrations.sol contracts))
+    #     DIR=$(pwd);cd smartbugs
+    #     for sol in "${solidityFiles[@]}"
+    #     do
+    #         echo "Analysing $sol..."
+    #         python smartBugs.py --tool all --file $DIR/contracts/$sol
+    #     done
+    # - name: Move SmartBugs Results to Parent Directory
+    #   run: |
+    #     [[ -d results ]] && rm -r results
+    #     cd smartbugs
+    #     mv results ../
+    # - name: Commit SmartBugs Results
+    #   uses: EndBug/add-and-commit@v7
+    #   with:
+    #     author_name: github-actions
+    #     author_email: action@github.com
+    #     message: 'chore: added smartbugs results'
+    #     add: 'results'
     - name: Stop ganache
       run: kill $(lsof -t -i:7545)
       

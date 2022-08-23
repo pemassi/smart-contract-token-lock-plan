@@ -1,9 +1,0 @@
-{
-  "analysis": [],
-  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
-  "duration": 0.8743560314178467,
-  "end": 1661242975.9930496,
-  "exit_code": 0,
-  "start": 1661242975.1186936,
-  "tool": "osiris"
-}
