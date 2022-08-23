@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - name: Show NodeJS version    
       run: npm --version
-     - name: Install Dependencies
+    - name: Install Dependencies
       run: npm install
     # - name: Install Truffle
     #   run: npm install truffle -g
