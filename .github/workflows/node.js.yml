@@ -43,10 +43,10 @@ jobs:
         npx ganache -p 7545 > /dev/null &
     - name: Run Truffle Test with CI=true for Codechecks  
       run: CI=true npx truffle test
-    - name: Run Codechecks
-      run: npx codechecks
-      env:
-        CC_SECRET: ${{ secrets.CC_SECRET }} 
+    # - name: Run Codechecks
+    #   run: npx codechecks
+    #   env:
+    #     CC_SECRET: ${{ secrets.CC_SECRET }} 
     - name: Run Test Coverage
       run: npx truffle run coverage
     - name: Coveralls
