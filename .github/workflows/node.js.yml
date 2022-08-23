@@ -43,10 +43,10 @@ jobs:
       run: npm install      
     - name: Run Truffle Test with CI=true for Codechecks  
       run: CI=true truffle test
-    - name: Run Codechecks
-      run: npx codechecks
-      env:
-        CC_SECRET: ${{ secrets.CC_SECRET }} 
+    # - name: Run Codechecks
+    #   run: npx codechecks
+    #   env:
+    #     CC_SECRET: ${{ secrets.CC_SECRET }} 
     - name: Run Test Coverage
       run: truffle run coverage
     # - name: Generate .coveralls.yml file
