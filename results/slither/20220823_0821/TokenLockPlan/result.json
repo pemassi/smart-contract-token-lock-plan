@@ -1,0 +1,9 @@
+{
+  "analysis": [],
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
+  "duration": 1.0479984283447266,
+  "end": 1661242978.6967244,
+  "exit_code": 0,
+  "start": 1661242977.648726,
+  "tool": "slither"
+}

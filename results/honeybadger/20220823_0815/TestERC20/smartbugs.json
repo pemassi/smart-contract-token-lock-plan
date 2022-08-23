@@ -1,0 +1,8 @@
+{
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TestERC20.sol",
+  "tool": "honeybadger",
+  "start": 1661242884.195152,
+  "end": 1661242885.0010962,
+  "duration": 0.8059442043304443,
+  "exit_code": 0
+}

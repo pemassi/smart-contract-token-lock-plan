@@ -1,0 +1,31 @@
+{
+  "analysis": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TestERC20.sol",
+  "duration": 13.431275129318237,
+  "end": 1661242898.433201,
+  "exit_code": 0,
+  "start": 1661242885.001926,
+  "tool": "manticore"
+}

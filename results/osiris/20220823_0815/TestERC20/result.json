@@ -1,0 +1,9 @@
+{
+  "analysis": [],
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TestERC20.sol",
+  "duration": 1.0638232231140137,
+  "end": 1661242809.8850932,
+  "exit_code": 0,
+  "start": 1661242808.82127,
+  "tool": "osiris"
+}

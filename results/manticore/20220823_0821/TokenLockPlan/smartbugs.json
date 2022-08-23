@@ -1,0 +1,8 @@
+{
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
+  "tool": "manticore",
+  "start": 1661242978.697775,
+  "end": 1661242992.3803377,
+  "duration": 13.682562828063965,
+  "exit_code": 0
+}

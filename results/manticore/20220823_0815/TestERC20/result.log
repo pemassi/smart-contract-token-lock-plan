@@ -1,0 +1,203 @@
+2022-08-23 08:21:25,736: [15] m.main:INFO: Registered plugins: DetectUninitializedStorage, DetectExternalCallAndLeak, DetectSuicidal, DetectEnvInstruction, DetectUninitializedMemory, DetectReentrancyAdvanced, DetectUnusedRetVal, DetectIntegerOverflow, DetectDelegatecall, DetectReentrancySimple, DetectInvalid
+2022-08-23 08:21:25,736: [15] m.main:INFO: Beginning analysis
+2022-08-23 08:21:25,743: [15] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:25,754: [15] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:25,810: [57] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:25,917: [15] m.c.manticore:INFO: Results in /mcore_qy8q9e_x
+2022-08-23 08:21:26,317: [316] m.main:INFO: Registered plugins: DetectUninitializedMemory, DetectSuicidal, DetectReentrancyAdvanced, DetectEnvInstruction, DetectReentrancySimple, DetectInvalid, DetectDelegatecall, DetectUnusedRetVal, DetectUninitializedStorage, DetectIntegerOverflow, DetectExternalCallAndLeak
+2022-08-23 08:21:26,318: [316] m.main:INFO: Beginning analysis
+2022-08-23 08:21:26,325: [316] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:26,336: [316] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:26,393: [358] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:26,507: [316] m.c.manticore:INFO: Results in /mcore_1xsdwc45
+2022-08-23 08:21:26,923: [617] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectUninitializedStorage, DetectExternalCallAndLeak, DetectSuicidal, DetectUninitializedMemory, DetectReentrancyAdvanced, DetectDelegatecall, DetectIntegerOverflow, DetectEnvInstruction
+2022-08-23 08:21:26,923: [617] m.main:INFO: Beginning analysis
+2022-08-23 08:21:26,931: [617] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:26,942: [617] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:26,997: [659] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:27,107: [617] m.c.manticore:INFO: Results in /mcore_elmmpe4g
+2022-08-23 08:21:27,509: [918] m.main:INFO: Registered plugins: DetectReentrancyAdvanced, DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectUninitializedStorage, DetectDelegatecall, DetectEnvInstruction, DetectExternalCallAndLeak, DetectIntegerOverflow, DetectUninitializedMemory, DetectSuicidal
+2022-08-23 08:21:27,510: [918] m.main:INFO: Beginning analysis
+2022-08-23 08:21:27,517: [918] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:27,528: [918] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:27,583: [964] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:27,690: [918] m.c.manticore:INFO: Results in /mcore_lxvma_wu
+2022-08-23 08:21:28,091: [1219] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectDelegatecall, DetectUnusedRetVal, DetectSuicidal, DetectUninitializedStorage, DetectIntegerOverflow, DetectExternalCallAndLeak, DetectReentrancyAdvanced, DetectUninitializedMemory, DetectEnvInstruction
+2022-08-23 08:21:28,092: [1219] m.main:INFO: Beginning analysis
+2022-08-23 08:21:28,099: [1219] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:28,109: [1219] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:28,166: [1261] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:28,279: [1219] m.c.manticore:INFO: Results in /mcore_vd7avk1j
+2022-08-23 08:21:28,687: [1520] m.main:INFO: Registered plugins: DetectReentrancyAdvanced, DetectUninitializedMemory, DetectDelegatecall, DetectExternalCallAndLeak, DetectUnusedRetVal, DetectReentrancySimple, DetectInvalid, DetectEnvInstruction, DetectSuicidal, DetectUninitializedStorage, DetectIntegerOverflow
+2022-08-23 08:21:28,687: [1520] m.main:INFO: Beginning analysis
+2022-08-23 08:21:28,694: [1520] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:28,705: [1520] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:28,750: [1562] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:28,885: [1520] m.c.manticore:INFO: Results in /mcore_wrhsq5es
+2022-08-23 08:21:29,287: [1821] m.main:INFO: Registered plugins: DetectUninitializedStorage, DetectReentrancyAdvanced, DetectUnusedRetVal, DetectUninitializedMemory, DetectIntegerOverflow, DetectInvalid, DetectSuicidal, DetectReentrancySimple, DetectEnvInstruction, DetectExternalCallAndLeak, DetectDelegatecall
+2022-08-23 08:21:29,287: [1821] m.main:INFO: Beginning analysis
+2022-08-23 08:21:29,295: [1821] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:29,305: [1821] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:29,368: [1863] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:29,475: [1821] m.c.manticore:INFO: Results in /mcore_sh_jqz8j
+2022-08-23 08:21:29,887: [2122] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectDelegatecall, DetectUninitializedStorage, DetectSuicidal, DetectEnvInstruction, DetectReentrancyAdvanced, DetectIntegerOverflow, DetectUninitializedMemory, DetectExternalCallAndLeak
+2022-08-23 08:21:29,887: [2122] m.main:INFO: Beginning analysis
+2022-08-23 08:21:29,895: [2122] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:29,906: [2122] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:29,961: [2165] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:30,068: [2122] m.c.manticore:INFO: Results in /mcore_ljfbuhce
+2022-08-23 08:21:30,471: [2423] m.main:INFO: Registered plugins: DetectSuicidal, DetectReentrancySimple, DetectInvalid, DetectReentrancyAdvanced, DetectExternalCallAndLeak, DetectEnvInstruction, DetectDelegatecall, DetectUninitializedStorage, DetectIntegerOverflow, DetectUnusedRetVal, DetectUninitializedMemory
+2022-08-23 08:21:30,472: [2423] m.main:INFO: Beginning analysis
+2022-08-23 08:21:30,479: [2423] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:30,490: [2423] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:30,548: [2466] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:30,650: [2423] m.c.manticore:INFO: Results in /mcore_0s8nug9e
+2022-08-23 08:21:31,057: [2724] m.main:INFO: Registered plugins: DetectDelegatecall, DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectUninitializedStorage, DetectIntegerOverflow, DetectReentrancyAdvanced, DetectSuicidal, DetectExternalCallAndLeak, DetectEnvInstruction, DetectUninitializedMemory
+2022-08-23 08:21:31,058: [2724] m.main:INFO: Beginning analysis
+2022-08-23 08:21:31,065: [2724] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:31,075: [2724] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:31,124: [2766] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:31,247: [2724] m.c.manticore:INFO: Results in /mcore_hsra96_e
+2022-08-23 08:21:31,653: [3025] m.main:INFO: Registered plugins: DetectDelegatecall, DetectIntegerOverflow, DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectUninitializedStorage, DetectExternalCallAndLeak, DetectSuicidal, DetectEnvInstruction, DetectReentrancyAdvanced, DetectUninitializedMemory
+2022-08-23 08:21:31,654: [3025] m.main:INFO: Beginning analysis
+2022-08-23 08:21:31,661: [3025] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:31,672: [3025] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:31,726: [3067] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:31,841: [3025] m.c.manticore:INFO: Results in /mcore_f2w11o0f
+2022-08-23 08:21:32,240: [3326] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectSuicidal, DetectUninitializedMemory, DetectDelegatecall, DetectUnusedRetVal, DetectUninitializedStorage, DetectExternalCallAndLeak, DetectReentrancyAdvanced, DetectEnvInstruction, DetectIntegerOverflow
+2022-08-23 08:21:32,240: [3326] m.main:INFO: Beginning analysis
+2022-08-23 08:21:32,250: [3326] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:32,261: [3326] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:32,322: [3368] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:32,437: [3326] m.c.manticore:INFO: Results in /mcore_muv5u8we
+2022-08-23 08:21:32,838: [3627] m.main:INFO: Registered plugins: DetectExternalCallAndLeak, DetectIntegerOverflow, DetectReentrancySimple, DetectInvalid, DetectSuicidal, DetectUnusedRetVal, DetectUninitializedStorage, DetectEnvInstruction, DetectDelegatecall, DetectReentrancyAdvanced, DetectUninitializedMemory
+2022-08-23 08:21:32,838: [3627] m.main:INFO: Beginning analysis
+2022-08-23 08:21:32,846: [3627] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:32,856: [3627] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:32,915: [3670] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:33,027: [3627] m.c.manticore:INFO: Results in /mcore_n2217e_4
+usage: manticore [-h] [--compile-force-framework COMPILE_FORCE_FRAMEWORK]
+                 [--compile-remove-metadata]
+                 [--compile-custom-build COMPILE_CUSTOM_BUILD] [--solc SOLC]
+                 [--solc-remaps SOLC_REMAPS] [--solc-args SOLC_ARGS]
+                 [--solc-disable-warnings]
+                 [--solc-working-dir SOLC_WORKING_DIR]
+                 [--solc-solcs-select SOLC_SOLCS_SELECT]
+                 [--solc-solcs-bin SOLC_SOLCS_BIN] [--truffle-ignore-compile]
+                 [--truffle-build-directory TRUFFLE_BUILD_DIRECTORY]
+                 [--truffle-version TRUFFLE_VERSION] [--embark-ignore-compile]
+                 [--embark-overwrite-config] [--dapp-ignore-compile]
+                 [--etherlime-ignore-compile] [--etherlime-compile-arguments]
+                 [--coverage COVERAGE] [--no-colors] [--policy POLICY] [-v]
+                 [--workspace WORKSPACE] [--version] [--config CONFIG]
+                 [--entrysymbol ENTRYSYMBOL] [--data DATA] [--file FILES]
+                 [--env ENV] [--pure-symbolic] [--verbose-trace]
+                 [--txlimit TXLIMIT] [--txnocoverage] [--txnoether]
+                 [--txaccount TXACCOUNT] [--txpreconstrain]
+                 [--contract CONTRACT] [--list-detectors]
+                 [--exclude DETECTORS_TO_EXCLUDE] [--exclude-all]
+                 [--avoid-constant] [--limit-loops] [--no-testcases]
+                 [--smt.timeout SMT.TIMEOUT] [--smt.memory SMT.MEMORY]
+                 [--smt.maxsolutions SMT.MAXSOLUTIONS]
+                 [--smt.z3_bin SMT.Z3_BIN]
+                 [--smt.defaultunsat SMT.DEFAULTUNSAT]
+                 [--workspace.prefix WORKSPACE.PREFIX]
+                 [--workspace.dir WORKSPACE.DIR] [--core.timeout CORE.TIMEOUT]
+                 [--core.cluster CORE.CLUSTER] [--core.procs CORE.PROCS]
+                 [--core.mprocessing CORE.MPROCESSING] [--evm.oog EVM.OOG]
+                 [--evm.defaultgas EVM.DEFAULTGAS] [--cli.profile CLI.PROFILE]
+                 [--main.recursionlimit MAIN.RECURSIONLIMIT]
+                 [--native.stdin_size NATIVE.STDIN_SIZE]
+                 [argv [argv ...]]
+manticore: error: argument --contract: expected one argument
+mv: cannot stat '/mcore_*': No such file or directory
+2022-08-23 08:21:33,771: [3934] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectSuicidal, DetectReentrancyAdvanced, DetectUninitializedStorage, DetectIntegerOverflow, DetectUnusedRetVal, DetectDelegatecall, DetectUninitializedMemory, DetectEnvInstruction, DetectExternalCallAndLeak
+2022-08-23 08:21:33,771: [3934] m.main:INFO: Beginning analysis
+2022-08-23 08:21:33,779: [3934] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:33,789: [3934] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:33,853: [3977] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:33,967: [3934] m.c.manticore:INFO: Results in /mcore_l_zbu4rw
+2022-08-23 08:21:34,373: [4235] m.main:INFO: Registered plugins: DetectReentrancyAdvanced, DetectEnvInstruction, DetectUninitializedStorage, DetectDelegatecall, DetectReentrancySimple, DetectIntegerOverflow, DetectExternalCallAndLeak, DetectUninitializedMemory, DetectSuicidal, DetectUnusedRetVal, DetectInvalid
+2022-08-23 08:21:34,373: [4235] m.main:INFO: Beginning analysis
+2022-08-23 08:21:34,380: [4235] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:34,391: [4235] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:34,448: [4278] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:34,556: [4235] m.c.manticore:INFO: Results in /mcore_sdpd4j7k
+2022-08-23 08:21:34,957: [4536] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectSuicidal, DetectReentrancyAdvanced, DetectUnusedRetVal, DetectUninitializedStorage, DetectDelegatecall, DetectEnvInstruction, DetectUninitializedMemory, DetectExternalCallAndLeak, DetectIntegerOverflow
+2022-08-23 08:21:34,957: [4536] m.main:INFO: Beginning analysis
+2022-08-23 08:21:34,965: [4536] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:34,975: [4536] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:35,030: [4578] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:35,142: [4536] m.c.manticore:INFO: Results in /mcore_orbed_1z
+2022-08-23 08:21:35,547: [4837] m.main:INFO: Registered plugins: DetectSuicidal, DetectReentrancySimple, DetectInvalid, DetectDelegatecall, DetectUninitializedStorage, DetectIntegerOverflow, DetectExternalCallAndLeak, DetectReentrancyAdvanced, DetectUnusedRetVal, DetectEnvInstruction, DetectUninitializedMemory
+2022-08-23 08:21:35,548: [4837] m.main:INFO: Beginning analysis
+2022-08-23 08:21:35,555: [4837] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:35,566: [4837] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:35,621: [4879] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:35,731: [4837] m.c.manticore:INFO: Results in /mcore_wqjm8n6m
+2022-08-23 08:21:36,152: [5138] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectUninitializedStorage, DetectIntegerOverflow, DetectSuicidal, DetectExternalCallAndLeak, DetectReentrancyAdvanced, DetectEnvInstruction, DetectUninitializedMemory, DetectDelegatecall
+2022-08-23 08:21:36,153: [5138] m.main:INFO: Beginning analysis
+2022-08-23 08:21:36,160: [5138] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:36,170: [5138] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:36,228: [5180] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:36,344: [5138] m.c.manticore:INFO: Results in /mcore_cm7gz4ye
+2022-08-23 08:21:36,757: [5439] m.main:INFO: Registered plugins: DetectDelegatecall, DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectReentrancyAdvanced, DetectUninitializedStorage, DetectIntegerOverflow, DetectSuicidal, DetectExternalCallAndLeak, DetectEnvInstruction, DetectUninitializedMemory
+2022-08-23 08:21:36,757: [5439] m.main:INFO: Beginning analysis
+2022-08-23 08:21:36,765: [5439] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:36,776: [5439] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:36,835: [5481] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:36,943: [5439] m.c.manticore:INFO: Results in /mcore_w2iylx68
+2022-08-23 08:21:37,346: [5740] m.main:INFO: Registered plugins: DetectReentrancySimple, DetectInvalid, DetectUnusedRetVal, DetectUninitializedStorage, DetectIntegerOverflow, DetectSuicidal, DetectExternalCallAndLeak, DetectReentrancyAdvanced, DetectEnvInstruction, DetectUninitializedMemory, DetectDelegatecall
+2022-08-23 08:21:37,346: [5740] m.main:INFO: Beginning analysis
+2022-08-23 08:21:37,353: [5740] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:37,364: [5740] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:37,416: [5782] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:37,527: [5740] m.c.manticore:INFO: Results in /mcore_p1x9ga3n
+2022-08-23 08:21:37,930: [6041] m.main:INFO: Registered plugins: DetectSuicidal, DetectReentrancySimple, DetectInvalid, DetectReentrancyAdvanced, DetectEnvInstruction, DetectDelegatecall, DetectUninitializedStorage, DetectIntegerOverflow, DetectUnusedRetVal, DetectExternalCallAndLeak, DetectUninitializedMemory
+2022-08-23 08:21:37,930: [6041] m.main:INFO: Beginning analysis
+2022-08-23 08:21:37,937: [6041] m.e.manticore:INFO: Starting symbolic create contract
+2022-08-23 08:21:37,948: [6041] m.e.manticore:ERROR: Errors : Invalid solc compilation Invalid option to --combined-json: compact-format
+
+. Solidity failed to generate bytecode for your contract. Check if all the abstract functions are implemented. 
+2022-08-23 08:21:38,007: [6083] m.c.manticore:INFO: Generated testcase No. 0 - NO STATE RESULT (?)(0 txs)
+2022-08-23 08:21:38,117: [6041] m.c.manticore:INFO: Results in /mcore_iq9oir32

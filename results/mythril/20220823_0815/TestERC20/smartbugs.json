@@ -1,0 +1,8 @@
+{
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TestERC20.sol",
+  "tool": "mythril",
+  "start": 1661242803.3747642,
+  "end": 1661242807.0590725,
+  "duration": 3.6843082904815674,
+  "exit_code": 0
+}

@@ -1,0 +1,8 @@
+{
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TokenLockPlan.sol",
+  "tool": "securify",
+  "start": 1661242976.8324475,
+  "end": 1661242977.6470048,
+  "duration": 0.8145573139190674,
+  "exit_code": 1
+}

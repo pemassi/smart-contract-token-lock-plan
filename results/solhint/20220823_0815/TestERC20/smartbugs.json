@@ -1,0 +1,8 @@
+{
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TestERC20.sol",
+  "tool": "solhint",
+  "start": 1661242901.3833477,
+  "end": 1661242902.2453687,
+  "duration": 0.8620209693908691,
+  "exit_code": 0
+}

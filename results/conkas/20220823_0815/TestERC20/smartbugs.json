@@ -1,0 +1,8 @@
+{
+  "contract": "/home/runner/work/smart-contract-token-lock-plan/smart-contract-token-lock-plan/contracts/TestERC20.sol",
+  "tool": "conkas",
+  "start": 1661242881.8824573,
+  "end": 1661242884.1945372,
+  "duration": 2.312079906463623,
+  "exit_code": 1
+}
