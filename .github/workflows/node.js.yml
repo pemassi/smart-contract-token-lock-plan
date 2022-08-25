@@ -34,7 +34,7 @@ jobs:
     - name: Show NodeJS version    
       run: npm --version
     - name: Install Dependencies
-      run: npm install
+      run: npm ci
     # - name: Install Truffle
     #   run: npm install truffle -g
     - name: Show Truffle version    

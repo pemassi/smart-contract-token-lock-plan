@@ -61,17 +61,9 @@ contract TokenLockPlan is ReentrancyGuard {
     /// @dev Deploys contract and links the ERC20 token which we are locking.
     /// @param _erc20_contract_address, the ERC20 token address that we are locking
     constructor(IERC20 _erc20_contract_address, PrivacyLevel _privacyLevel) {
-        // Allow this contract's owner to make deposits by setting allIncomingDepositsFinalised to false
         isLocked = false;
-
-        // Set contract owner
         owner = payable(msg.sender);
-
-        // Set privacy level
         privacyLevel = _privacyLevel;
-
-        // Set the erc20 contract address which this timelock is deliberately paired to
-        require(address(_erc20_contract_address) != address(0), "_erc20_contract_address cannot be zero");
         erc20Contract = _erc20_contract_address;
     }
 
@@ -231,7 +223,7 @@ contract TokenLockPlan is ReentrancyGuard {
 
     /// @dev Get balance of deposited ETH into this contract.
     function depositedEthBalance() public view returns (uint256) {
-        return erc20Contract.balanceOf(address(this));
+        return contractEthBalance;
     }
 
     /// @dev Transfer deposited tokens before lockup to onwer.

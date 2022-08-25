@@ -3,6 +3,7 @@ const { PlanHelper } = require("../helper/plan.helper");
 const TokenLockPlan = artifacts.require("TokenLockPlan");
 const TestToken = artifacts.require("TestToken");
 const { expect } = require('chai');
+const { web3 } = require("@openzeppelin/test-helpers/src/setup");
 
 contract("TokenLockPlan", (accounts) => {
   // Instance
@@ -52,6 +53,14 @@ contract("TokenLockPlan", (accounts) => {
       await expectRevert(
         planInstance.setLockPlan(user1, [1], [1], {from: user1}),
         "Only onwer can call"
+      )
+    });
+
+    it("Throw when try to set plan after locked", async () => {
+      await planInstance.lockup();
+      await expectRevert(
+        planInstance.lockup(),
+        "Plan is locked"
       )
     });
 
@@ -175,6 +184,43 @@ contract("TokenLockPlan", (accounts) => {
       // Compare
       expect((await planInstance.checkUserUnlockedTokenBalance.call(user1)).toNumber()).to.equal(30);
       expect((await planInstance.checkUserUnlockedTokenBalance.call(user2)).toNumber()).to.equal(70);
+    });
+  });
+
+  describe("Test Method: checkMyUnlockedTokenBalance", () => {
+    it("Should be zero", async () => {
+      // Lockup
+      await planInstance.lockup()
+
+      let amount = await planInstance.checkMyUnlockedTokenBalance.call(txUser1);
+      assert.equal(amount.toNumber(), 0);
+
+      let amount2 = await planInstance.checkMyUnlockedTokenBalance.call(txUser2);
+      assert.equal(amount2.toNumber(), 0);
+    });
+
+    it("Should be all unlocked after some times", async () => {
+      // Add Lock Plan
+      await planInstance.setLockPlan(user1, [0, 100], [10, 20]);
+      await planInstance.setLockPlan(user2, [0, 100], [30, 40]);
+
+      // Deposit
+      await tokenInstance.transfer(planInstance.address, 100);
+      assert.equal((await tokenInstance.balanceOf(owner)).toNumber(), TOKEN_MAX_BALANCE - 100);
+
+      // Lockup
+      await planInstance.lockup()
+
+      // Compare
+      expect((await planInstance.checkMyUnlockedTokenBalance.call(txUser1)).toNumber()).to.equal(10);
+      expect((await planInstance.checkMyUnlockedTokenBalance.call(txUser2)).toNumber()).to.equal(30);
+
+      // Wait
+      await time.increase(time.duration.seconds(100));
+
+      // Compare
+      expect((await planInstance.checkMyUnlockedTokenBalance.call(txUser1)).toNumber()).to.equal(30);
+      expect((await planInstance.checkMyUnlockedTokenBalance.call(txUser2)).toNumber()).to.equal(70);
     });
   });
 
@@ -595,6 +641,99 @@ contract("TokenLockPlan", (accounts) => {
       assert.equal((await planInstance.totalBalance()).toNumber(), 0);
     });
 
+  });
+
+  describe("Test Method: lockup", () => {
+    it("Throw when contract balance is not enough", async () => {
+      // Set Plan
+      await planInstance.setLockPlan(user1, [0, 50], [10, 20]);
+      
+      // then
+      await expectRevert(
+        planInstance.lockup(), 
+        "Depoisted contract balance is less than total locking amount"
+      );
+    });
+
+    it("Throw when lockup after locked", async () => {
+      // Lockup
+      await planInstance.lockup();
+      
+      // then
+      await expectRevert(
+        planInstance.lockup(), 
+        "Plan is locked"
+      );
+    });
+
+    it("Should be successfully locked", async () => {
+      // Lockup
+      await planInstance.lockup();
+      
+      // then
+      assert.equal(await planInstance.isLocked(), true);
+    });
+  });
+
+  describe("Test Method: depositedEthBalance", () => {
+    it("Should be zero", async () => {
+      let amount = await planInstance.depositedEthBalance.call();
+      assert.equal(amount.toNumber(), 0);
+    });
+
+    it("Should be able to see balance", async () => {
+      // given
+      await web3.eth.sendTransaction({from: owner, to: planInstance.address, value: web3.utils.toWei('1')})
+
+      // when
+      let amount = await planInstance.depositedEthBalance();
+
+      // then
+      assert.equal(amount.toNumber(), 1000000000000000000)
+    });
+  });
+
+  describe("Test Method: transferDepositedTokensToOnwer", () => {
+    it("Throw when called by not onwer", async () => {
+      await expectRevert(
+        planInstance.transferDepositedTokensToOnwer(100, txUser1), 
+        "Only onwer can call"
+      );
+    });
+  });
+
+  describe("Test Method: transferAccidentallyDepositedTokensToOnwer", () => {
+    it("Throw when called by not onwer", async () => {
+      await expectRevert(
+        planInstance.transferAccidentallyDepositedTokensToOnwer(100, txUser1), 
+        "Only onwer can call"
+      );
+    });
+  });
+
+  describe("Test Method: transferAccidentallyDepositedOtherTokensToOnwer", () => {
+    it("Throw when called by not onwer", async () => {
+      await expectRevert(
+        planInstance.transferAccidentallyDepositedOtherTokensToOnwer(tokenInstance.address, 100, txUser1), 
+        "Only onwer can call"
+      );
+    });
+
+    it("Throw when token address is same as lock token address", async () => {
+      await expectRevert(
+        planInstance.transferAccidentallyDepositedOtherTokensToOnwer(tokenInstance.address, 100), 
+        "Token address cannot be locked token"
+      );
+    });
+  });
+
+  describe("Test Method: transferAccidentallyDepositedEthToOnwer", () => {
+    it("Throw when called by not onwer", async () => {
+      await expectRevert(
+        planInstance.transferAccidentallyDepositedEthToOnwer(100, txUser1), 
+        "Only onwer can call"
+      );
+    });
   });
 
 });
