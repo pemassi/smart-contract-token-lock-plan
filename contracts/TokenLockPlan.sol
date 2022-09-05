@@ -91,11 +91,14 @@ contract TokenLockPlan is ReentrancyGuard, Ownable {
         require(recipient != address(0), "TokenLockPlan: recipient is the zero address");
         require(unlockAfterSecs.length == lockAmounts.length, "TokenLockPlan: unlockAfterSecs and lockAmounts must be the same length");
         
-        // Delete the original lock plan
-        delete lockPlans[recipient];
-
+        
         // Add recipient to lock plan recipients
-        lockPlanRecipients.add(recipient);
+        bool isAlreadyExist = !lockPlanRecipients.add(recipient);
+
+        if(isAlreadyExist) {
+            // Delete the original lock plan
+            delete lockPlans[recipient];
+        }
 
         for(uint256 i = 0; i < unlockAfterSecs.length; i++)
         {
