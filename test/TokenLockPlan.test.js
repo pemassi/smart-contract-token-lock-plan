@@ -11,14 +11,15 @@ contract("TokenLockPlan", (accounts) => {
   let tokenInstance;
 
   // Accounts
-  let owner = accounts[0];
-  let user1 = accounts[1];
-  let user2 = accounts[2];
+  const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+  const owner = accounts[0];
+  const user1 = accounts[1];
+  const user2 = accounts[2];
 
   // Tx
-  let txOwner = {from: owner};
-  let txUser1 = {from: user1};
-  let txUser2 = {from: user2};
+  const txOwner = {from: owner};
+  const txUser1 = {from: user1};
+  const txUser2 = {from: user2};
 
   // Const
   const TOKEN_MAX_BALANCE = 1_000_000_000;
@@ -36,6 +37,13 @@ contract("TokenLockPlan", (accounts) => {
 
 
   describe("Test Method: setLockPlan", () => {
+
+    it("Throw when address is zero", async () => {
+      await expectRevert(
+        planInstance.setLockPlan(ZERO_ADDRESS, [1], [1]),
+        "recipient is the zero address"
+      );
+    });
 
     it("Throw when unlockTimestamps and amounts sizes are not equal", async () => {
       await expectRevert(
@@ -151,6 +159,16 @@ contract("TokenLockPlan", (accounts) => {
   });
 
   describe("Test Method: userUnlockedTokenBalance", () => {
+    it("Throw when address is zero", async () => {
+      // Lockup
+      await planInstance.lockup()
+
+      await expectRevert(
+        planInstance.userUnlockedTokenBalance.call(ZERO_ADDRESS),
+        "recipient is the zero address"
+      );
+    });
+
     it("Should be zero", async () => {
       // Lockup
       await planInstance.lockup()
@@ -432,6 +450,15 @@ contract("TokenLockPlan", (accounts) => {
   });
 
   describe("Test Method: withdrawUserUnlockedToken", () => {
+    it("Throw when address is zero", async () => {
+      // Lockup
+      await planInstance.lockup()
+
+      await expectRevert(
+        planInstance.withdrawUserUnlockedToken(ZERO_ADDRESS, 0),
+        "recipient is the zero address"
+      );
+    });
 
     it("Throw when sender is not owner", async () => {
       await expectRevert(planInstance.withdrawUserUnlockedToken(owner, 0, txUser1), "Ownable: caller is not the owner");
@@ -901,6 +928,13 @@ contract("TokenLockPlan", (accounts) => {
       );
     });
 
+    it("Throw when insufficient balance", async () => {
+      await expectRevert(
+        planInstance.transferAccidentallyDepositedEthToOnwer(100), 
+        "Insufficient balance"
+      );
+    });
+
     it("Should be sent", async () => {
       //given
       //send eth to contract
@@ -937,6 +971,34 @@ contract("TokenLockPlan", (accounts) => {
 
       //then
       assert.equal(contractEthBalance.toNumber(), 1);
+    });
+  });
+
+  describe("Test Method: lockPlanLength", () => {
+    it("Throw when address is zero", async () => {
+      await expectRevert(
+        planInstance.lockPlanLength(ZERO_ADDRESS), 
+        "recipient is the zero address"
+      );
+    });
+
+    it("Should be zero", async () => {
+      //when
+      let length = await planInstance.lockPlanLength(user1);
+
+      //then
+      assert.equal(length.toNumber(), 0);
+    });
+
+    it("Should be 2", async () => {
+      //given
+      await planInstance.setLockPlan(user1, [0, 50], [10, 20]);
+
+      //when
+      let length = await planInstance.lockPlanLength(user1);
+
+      //then
+      assert.equal(length.toNumber(), 2);
     });
   });
 
