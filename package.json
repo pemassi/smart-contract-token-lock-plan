@@ -13,7 +13,8 @@
 		"migrate": "truffle migrate",
 		"develop": "truffle develop",
 		"test": "truffle test",
-		"ci:test": "truffle test --network ci"
+		"lint": "solium -d ./contracts/",
+		"flat": "truffle-flattener ./contracts/TokenLockPlan.sol > ./flat/TokenLockPlan_flat.sol"
 	},
 	"repository": {
 		"type": "git",
@@ -28,18 +29,20 @@
 	"author": "Kyungyoon Kim <ruddbs5302@gmail.com>",
 	"license": "MST",
 	"dependencies": {
-		"@openzeppelin/contracts": "4.7.3"
+		"@openzeppelin/contracts": "4.7.3",
+		"solium": "^1.2.5"
 	},
 	"devDependencies": {
 		"@codechecks/client": "^0.1.12",
+		"@openzeppelin/test-helpers": "^0.5.15",
+		"@truffle/hdwallet-provider": "^2.0.14",
 		"coveralls": "^3.1.1",
 		"eth-gas-reporter": "^0.2.25",
 		"ganache-cli": "^6.12.2",
 		"solidity-coverage": "^0.7.21",
-		"truffle-plugin-verify": "^0.5.28",
 		"truffle": "^5.5.27",
 		"truffle-contract-size": "^2.0.1",
-		"@truffle/hdwallet-provider": "^2.0.14",
-		"@openzeppelin/test-helpers": "^0.5.15"
+		"truffle-flattener": "^1.6.0",
+		"truffle-plugin-verify": "^0.5.28"
 	}
 }
